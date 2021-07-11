@@ -7,6 +7,7 @@ import IconFontisto from "react-native-vector-icons/Fontisto";
 import Login from "../screens/login";
 import Signup from "../screens/signup";
 import Landing from "../screens/landing";
+import JardinDetail from "../screens/jardin-detail";
 
 const Auth = createStackNavigator(
   {
@@ -26,6 +27,7 @@ const Auth = createStackNavigator(
 const Home = createStackNavigator(
   {
     Landing: Landing,
+    JardinDetail: JardinDetail
   },
   {
     defaultNavigationOptions: {
