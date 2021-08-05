@@ -8,11 +8,13 @@ import IconFontAwesome from "react-native-vector-icons/FontAwesome";
 import IconMaterialIcons from "react-native-vector-icons/MaterialIcons";
 import IconFoundation from "react-native-vector-icons/Foundation";
 import Landing from "../screens/landing";
-
+import JardinDetail from "../screens/jardin-detail";
+import UpdateProfile from "../screens/Update-profile";
 
 const LandingNav = createStackNavigator(
   {
     Landing: Landing,
+    JardinDetail: JardinDetail,
   },
   {
     defaultNavigationOptions: {
@@ -24,6 +26,45 @@ const LandingNav = createStackNavigator(
   }
 );
 
+const ProfileNav = createStackNavigator(
+  {
+    UpdateProfile: UpdateProfile,
+  },
+  {
+    defaultNavigationOptions: {
+      headerStyle: {
+        backgroundColor: "#0086c3",
+      },
+      headerTintColor: "white",
+    },
+  }
+);
 
+const AppNav = createMaterialBottomTabNavigator(
+  {
+    Acceuil: {
+      screen: LandingNav,
+      navigationOptions: {
+        tabBarIcon: (tabInfo) => {
+          return <IconFontAwesome name="list-ol" size={25} color="#fafafa" />;
+        },
+        tabBarColor: "#0086c3",
+      },
+    },
+    Profile: {
+      screen: ProfileNav,
+      navigationOptions: {
+        tabBarIcon: (tabInfo) => {
+          return <IconFontisto name="person" size={25} color="#fafafa" />;
+        },
+        tabBarColor: "#0086c3",
+      },
+    },
+  },
+  {
+    activeColor: "white",
+    shifting: true,
+  }
+);
 
-export default createAppContainer(LandingNav);
+export default createAppContainer(AppNav);

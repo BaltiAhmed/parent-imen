@@ -7,7 +7,7 @@ import {
   Image,
   RefreshControl,
 } from "react-native";
-import {Card, CardItem, Body } from "native-base";
+import { Card, CardItem, Body } from "native-base";
 
 const wait = (timeout) => {
   return new Promise((resolve) => setTimeout(resolve, timeout));
@@ -84,6 +84,7 @@ const JardinDetail = (props) => {
                 <View style={styles.details}></View>
               </CardItem>
             </Card>
+            
           </View>
         )}
       </ScrollView>

@@ -50,7 +50,7 @@ const AppNav = createMaterialBottomTabNavigator(
         tabBarColor: "#039be5",
       },
     },
-    Profile: {
+    Login: {
       screen: Auth,
       navigationOptions: {
         tabBarIcon: (tabInfo) => {
