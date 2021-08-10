@@ -1,4 +1,4 @@
-import React, { useState,useContext } from "react";
+import React, { useState, useContext } from "react";
 import {
   StyleSheet,
   Text,
@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import Card from "../components/Card";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import {Authcontext} from '../context/auth-context'
+import { Authcontext } from "../context/auth-context";
 
 const UpdateProfile = (props) => {
   const [email, setEmail] = useState();
@@ -40,10 +40,9 @@ const UpdateProfile = (props) => {
     hideDatePicker();
   };
 
-  const auth = useContext(Authcontext)
+  const auth = useContext(Authcontext);
 
   const submit = async () => {
-    
     let response = await fetch(
       `http://192.168.1.185:5000/api/parent/${auth.userId}`,
       {

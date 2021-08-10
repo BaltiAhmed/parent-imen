@@ -6,8 +6,13 @@ import {
   ScrollView,
   Image,
   RefreshControl,
+  Button,
+  Alert,
 } from "react-native";
 import { Card, CardItem, Body } from "native-base";
+import { Authcontext } from "../context/auth-context";
+import { useContext } from "react";
+import { Spinner } from "native-base";
 
 const wait = (timeout) => {
   return new Promise((resolve) => setTimeout(resolve, timeout));
@@ -53,6 +58,38 @@ const JardinDetail = (props) => {
     };
     sendRequest();
   }, []);
+
+  const auth = useContext(Authcontext);
+  const [loading, setLoading] = useState(false);
+
+  const submit = async () => {
+    setLoading(true);
+
+    let response = await fetch(
+      "http://192.168.1.185:5000/api/parent/inscription",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          IdParent: auth.userId,
+          IdJardin: id,
+        }),
+      }
+    );
+
+    if (!response.ok) {
+      let responsedata = await response.json();
+      Alert.alert("Message", responsedata.message, [{ text: "fermer" }]);
+      setLoading(false);
+      throw new Error(responsedata.message);
+    }
+    setLoading(false);
+    Alert.alert("Message", "Votre demande est enregistrer", [
+      { text: "fermer" },
+    ]);
+  };
   return (
     <View>
       <ScrollView
@@ -83,8 +120,19 @@ const JardinDetail = (props) => {
               <CardItem footer>
                 <View style={styles.details}></View>
               </CardItem>
+              {auth.userId &&
+                (loading ? (
+                  <Spinner />
+                ) : (
+                  <View style={styles.buttonContainer}>
+                    <Button
+                      title="S'inscrire"
+                      color="#1e88e5"
+                      onPress={submit}
+                    />
+                  </View>
+                ))}
             </Card>
-            
           </View>
         )}
       </ScrollView>
@@ -116,6 +164,9 @@ const styles = StyleSheet.create({
     borderColor: "#ccc",
     borderWidth: 1,
     padding: 10,
+  },
+  buttonContainer: {
+    marginTop: 10,
   },
 });
 
