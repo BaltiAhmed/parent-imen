@@ -90,6 +90,14 @@ const JardinDetail = (props) => {
       { text: "fermer" },
     ]);
   };
+  const message = () => {
+    props.navigation.navigate({
+      routeName: "Message",
+      params: {
+        id: list._id,
+      },
+    });
+  };
   return (
     <View>
       <ScrollView
@@ -129,6 +137,25 @@ const JardinDetail = (props) => {
                       title="S'inscrire"
                       color="#1e88e5"
                       onPress={submit}
+                    />
+                  </View>
+                ))}
+              {auth.userId &&
+                (loading ? (
+                  <Spinner />
+                ) : (
+                  <View style={styles.buttonContainer}>
+                    <Button
+                      title="Envoyer un message"
+                      color="#4a148c"
+                      onPress={() => {
+                        props.navigation.navigate({
+                          routeName: "Chat",
+                          params: {
+                            id: list._id,
+                          },
+                        });
+                      }}
                     />
                   </View>
                 ))}
