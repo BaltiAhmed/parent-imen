@@ -27,9 +27,7 @@ const JardinDetail = (props) => {
     setRefreshing(true);
     wait(2000).then(() => setRefreshing(false));
     const sendRequest = async () => {
-      const response = await fetch(
-        `http://192.168.1.185:5000/api/jardin/${id}`
-      );
+      const response = await fetch(`http://192.168.1.46:5000/api/jardin/${id}`);
 
       const responseData = await response.json();
       if (!response.ok) {
@@ -45,9 +43,7 @@ const JardinDetail = (props) => {
 
   useEffect(() => {
     const sendRequest = async () => {
-      const response = await fetch(
-        `http://192.168.1.185:5000/api/jardin/${id}`
-      );
+      const response = await fetch(`http://192.168.1.46:5000/api/jardin/${id}`);
 
       const responseData = await response.json();
       if (!response.ok) {
@@ -66,7 +62,7 @@ const JardinDetail = (props) => {
     setLoading(true);
 
     let response = await fetch(
-      "http://192.168.1.185:5000/api/parent/inscription",
+      "http://192.168.1.46:5000/api/parent/inscription",
       {
         method: "POST",
         headers: {
@@ -108,7 +104,7 @@ const JardinDetail = (props) => {
         {list && (
           <View>
             <Image
-              source={{ uri: `http://192.168.1.185:5000/${list.logo}` }}
+              source={{ uri: `http://192.168.1.46:5000/${list.logo}` }}
               style={styles.image}
             />
             <View style={styles.details}>
@@ -137,6 +133,25 @@ const JardinDetail = (props) => {
                       title="S'inscrire"
                       color="#1e88e5"
                       onPress={submit}
+                    />
+                  </View>
+                ))}
+              {auth.userId &&
+                (loading ? (
+                  <Spinner />
+                ) : (
+                  <View style={styles.buttonContainer}>
+                    <Button
+                      title="Parents inscrits"
+                      color="#c51162"
+                      onPress={() => {
+                        props.navigation.navigate({
+                          routeName: "ListParentJardin",
+                          params: {
+                            id: list._id,
+                          },
+                        });
+                      }}
                     />
                   </View>
                 ))}

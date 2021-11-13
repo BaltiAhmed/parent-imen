@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext,useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -40,11 +40,30 @@ const UpdateProfile = (props) => {
     hideDatePicker();
   };
 
+  
+
+
+  useEffect(() => {
+    const sendRequest = async () => {
+      const response = await fetch(`http://192.168.1.46:5000/api/parent/${auth.userId}`);
+
+      const responseData = await response.json();
+      if (!response.ok) {
+        throw new Error(responseData.message);
+      }
+
+      
+      setNom(responseData.existingParent.nom)
+      setNom(responseData.existingParent.nom)
+    };
+    sendRequest();
+  }, []);
+
   const auth = useContext(Authcontext);
 
   const submit = async () => {
     let response = await fetch(
-      `http://192.168.1.185:5000/api/parent/${auth.userId}`,
+      `http://192.168.1.46:5000/api/parent/${auth.userId}`,
       {
         method: "Patch",
         headers: {

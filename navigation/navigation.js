@@ -11,12 +11,16 @@ import JardinDetail from "../screens/jardin-detail";
 import UpdateProfile from "../screens/Update-profile";
 import Reclamation from "../screens/reclamation";
 import ChatScreen from "../screens/chat";
+import ListParentJardin from "../screens/listParentJardin";
+import ChatScreenParentParent from "../screens/chatParentParent";
 
 const LandingNav = createStackNavigator(
   {
     Landing: Landing,
     JardinDetail: JardinDetail,
     Chat: ChatScreen,
+    ChatParentParent: ChatScreenParentParent,
+    ListParentJardin: ListParentJardin
   },
   {
     defaultNavigationOptions: {

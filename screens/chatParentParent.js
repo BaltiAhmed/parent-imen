@@ -11,7 +11,7 @@ import { Container, Header, Content, Button, Item, Input } from "native-base";
 import LandingGrid from "../components/landingGrid";
 import { Authcontext } from "../context/auth-context";
 
-const ChatScreen = (props) => {
+const ChatScreenParentParent = (props) => {
   const [messages, setMessages] = useState([]);
   const [text, setText] = useState("");
   const scrollViewRef = useRef();
@@ -54,7 +54,7 @@ const ChatScreen = (props) => {
     };
     setMessages(messages.concat(p));
 
-    let response = await fetch("http://192.168.1.46:5000/api/message/ajout", {
+    let response = await fetch("http://192.168.1.46:5000/api/message/ajout/parent", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -63,8 +63,8 @@ const ChatScreen = (props) => {
         text: text,
         idSender: auth.userId,
         idRecever: id,
-        jardinId: id,
-        parentId: auth.userId,
+        parentId2: id,
+        parentId1: auth.userId,
       }),
     });
 
@@ -160,11 +160,11 @@ const ChatScreen = (props) => {
   );
 };
 
-ChatScreen.navigationOptions = {
+ChatScreenParentParent.navigationOptions = {
   headerTitle: "Chat",
 };
 
-export default ChatScreen;
+export default ChatScreenParentParent;
 
 const styles = StyleSheet.create({
   container: {

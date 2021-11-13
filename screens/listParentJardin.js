@@ -8,90 +8,103 @@ import {
   RefreshControl,
   ScrollView,
 } from "react-native";
+import {
+  Container,
+  Header,
+  Content,
+  List,
+  ListItem,
+  Left,
+  Body,
+  Right,
+  Thumbnail,
+} from "native-base";
+import AntDesign from "react-native-vector-icons/AntDesign";
 
 const wait = (timeout) => {
   return new Promise((resolve) => setTimeout(resolve, timeout));
 };
 
-const Landing = (props) => {
+const ListParentJardin = (props) => {
   const [refreshing, setRefreshing] = useState(false);
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
     wait(2000).then(() => setRefreshing(false));
     const sendRequest = async () => {
-      const response = await fetch(`http://192.168.1.46:5000/api/jardin/`);
+      const response = await fetch(
+        `http://192.168.1.185:5000/api/bonplan/site/${id}`
+      );
 
       const responseData = await response.json();
       if (!response.ok) {
         throw new Error(responseData.message);
       }
 
-      setList(responseData.existingJardin);
+      setList(responseData.bonPlan);
     };
     sendRequest();
   }, []);
 
   const [list, setList] = useState([]);
 
+  const id = props.navigation.getParam("id");
+  console.log(id);
+
   useEffect(() => {
     const sendRequest = async () => {
-      const response = await fetch(`http://192.168.1.46:5000/api/jardin`);
+      const response = await fetch(
+        `http://192.168.1.46:5000/api/parent/jardin/${id}`
+      );
 
       const responseData = await response.json();
       if (!response.ok) {
         throw new Error(responseData.message);
       }
 
-      setList(responseData.existingJardin);
+      setList(responseData.existingParent);
     };
     sendRequest();
   }, []);
+
   return (
-    <View>
-      <ScrollView
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }
-      >
-        {list &&
-          list.map((row) => (
-            <View style={styles.mealItem}>
-              <TouchableOpacity
+    <ScrollView
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
+    >
+      {list &&
+        list.map((row) => (
+          <ListItem avatar>
+            <Body>
+              <Text>{row.nom}</Text>
+              <Text>{row.prenom}</Text>
+              <Text note>{row.email}</Text>
+            </Body>
+            <Right>
+              <AntDesign
+                name="message1"
+                size={25}
+                color="#1565c0"
                 onPress={() => {
                   props.navigation.navigate({
-                    routeName: "JardinDetail",
+                    routeName: "ChatParentParent",
                     params: {
                       id: row._id,
                     },
                   });
                 }}
-              >
-                <View>
-                  <View style={{ ...styles.MealRow, ...styles.mealHeader }}>
-                    <ImageBackground
-                      source={{ uri: `http://192.168.1.46:5000/${row.logo}` }}
-                      style={styles.bgImage}
-                    >
-                      <Text style={styles.title}>{props.title}</Text>
-                    </ImageBackground>
-                  </View>
-                  <View style={{ ...styles.MealRow, ...styles.mealDetail }}>
-                    <Text>{row.nom}</Text>
-                    <Text>{row.adresse}</Text>
-                  </View>
-                </View>
-              </TouchableOpacity>
-            </View>
-          ))}
-      </ScrollView>
-    </View>
+              />
+            </Right>
+          </ListItem>
+        ))}
+    </ScrollView>
   );
 };
 
-Landing.navigationOptions = (navData) => {
+ListParentJardin.navigationOptions = (navData) => {
   return {
-    headerTitle: "Acceuil",
+    headerTitle: "Parents inscrit",
   };
 };
 
@@ -130,4 +143,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Landing;
+export default ListParentJardin;
